@@ -123,12 +123,15 @@ def question(session_id, question_id):
             session=session_id
         )
     
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def root():
-    session = create_session()
-    question = get_random_question()
-    return redirect(f"/sessions/{session.id}/questions/{question.id}", code=302)
+    
+    if request.method == "POST":
+        session = create_session()
+        question = get_random_question()
+        return redirect(f"/sessions/{session.id}/questions/{question.id}", code=302)
 
+    return render_template('index.html')
     
     
 if __name__ == '__main__':
